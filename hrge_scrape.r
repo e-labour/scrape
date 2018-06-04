@@ -16,7 +16,7 @@ newFileName <- "newFileName"
 months = list("იან" = "01", "თებ" = "02", "მარ" = "03", "აპრ" = "04", 
 		"მაი" = "05", "ივნ" = "06", "ივლ" = "07", "აგვ" = "08", 
 		"სექ" = "09", "ოქტ" = "10", "ნოე" = "11", "დეკ" = "12")
-paste2 <- function(charvec){if (is.na(charvec)){NA} else {paste(charvec, collapse = ", ")}}
+paste2 <- function(charvec, collapse = ", "){if (all(is.na(charvec))){NA} else {paste(charvec, collapse = collapse)}}
 
 # list of all ad urls to scrape
 hrge_page <- read_html("https://hr.ge/announcements/of-vacancy")
@@ -33,7 +33,7 @@ new_ad_urls <- all_urls %>% str_subset("/announcement/") %>%
 # new_ad_urls <- setdiff(new_ad_urls, old_ad_urls)  
 #--------
 
-# function to scrape data from an ad page. returns a dataframe
+# function to scrape data from an ad page with x = ad url. returns a dataframe
 scrape_hrge <- function(x){
   ad_html <- read_html(x)
   # position title
@@ -65,7 +65,7 @@ scrape_hrge <- function(x){
   
   info_rows <- ad_html %>% html_nodes("div") %>% html_nodes(".posting-details") %>% html_nodes("table") %>% html_nodes("tr")
   
-  info_list <- list("თარიღები:" = NA, "მდებარეობა:"= NA, "სამუშაო განრიგი:"= NA, "ხელფასი:"= NA, "განათლება:"= NA, "გამოცდილება:"= NA, "ენები:"= NA, "ელ. ფოსტა:"= NA)
+  info_list <- list("თარიღები:" = NA, "მდებარეობა:"= NA, "დასაქმების ფორმა:"= NA, "ხელფასი:"= NA, "განათლება:"= NA, "გამოცდილება:"= NA, "ენები:"= NA, "ელ. ფოსტა:"= NA)
   for (row1 in info_rows) {
     name <- row1 %>% html_node("strong") %>% html_text(trim = TRUE)
     if (is.na(name)) {
@@ -82,7 +82,7 @@ scrape_hrge <- function(x){
   # application deadline
   E <- as.Date(paste(substr(info_list[["თარიღები:"]][2], 1,2), months[[substr(info_list[["თარიღები:"]][2],4,6)]], "2018", sep = ""), format = '%d%m%Y') %>% as.data.frame(stringsAsFactors = F)
   Z <- paste2(info_list[["მდებარეობა:"]]) %>% as.data.frame(stringsAsFactors = F)
-  G <- paste2(info_list[["სამუშაო განრიგი:"]]) %>% as.data.frame(stringsAsFactors = F)
+  G <- paste2(info_list[["დასაქმების ფორმა:"]]) %>% as.data.frame(stringsAsFactors = F) # სამუშაო განრიგი
   H <- paste2(info_list[["ხელფასი:"]]) %>% as.data.frame(stringsAsFactors = F)
   I <- paste2(info_list[["განათლება:"]]) %>% as.data.frame(stringsAsFactors = F)
   J <- paste2(info_list[["გამოცდილება:"]]) %>% as.data.frame(stringsAsFactors = F)

@@ -14,7 +14,7 @@ newFileName <- "newFileName"
 i <- 6 #number of post pages
 #end inputs 
 
-paste2 <- function(charvec, collapse = ", "){if (is.na(charvec)){NA} else {paste(charvec, collapse = collapse)}}
+paste2 <- function(charvec, collapse = ", "){if (all(is.na(charvec))){NA} else {paste(charvec, collapse = collapse)}}
 get_urls_jobsge <- function(url){
   page <- read_html(url)
   all_urls <- page %>% html_nodes("tr") %>%  html_nodes("td") %>% 
@@ -35,7 +35,7 @@ new_ad_urls <- map(urls, get_urls_jobsge) %>% unlist() %>% unique()
 # new_ad_urls <- setdiff(new_ad_urls, old_ad_urls) 
 #--------
 
-# function to scrape data from an ad page. returns a dataframe
+# function to scrape data from an ad page with x = ad url. returns a dataframe
 scrape_jobsge <- function(x){
   # url to english ad -- position title, employer name and ad body are often translated
   x_eng <- x %>% str_replace(pattern = "http://www.jobs.ge", 
@@ -87,8 +87,8 @@ scrape_jobsge <- function(x){
         "http://" %in% (employer_url_given %>% html_attr("href")) | 
         "https://" %in% (employer_url_given %>% html_attr("href"))) {
       D <- NA %>% as.data.frame(stringsAsFactors = F)
-      I <- NA	%>% as.data.frame(stringsAsFactors = F)
-      K <- NA	%>% as.data.frame(stringsAsFactors = F)
+      I <- NA %>% as.data.frame(stringsAsFactors = F)
+      K <- NA %>% as.data.frame(stringsAsFactors = F)
     } else {
       employer_url <- paste("http://www.jobs.ge", employer_url_given %>% html_attr("href"), sep = "") %>%
         str_replace_all(pattern = " ", replacement = "%20")
@@ -109,8 +109,8 @@ scrape_jobsge <- function(x){
   } else {
     C <- NA %>% as.data.frame(stringsAsFactors = F)
     D <- NA %>% as.data.frame(stringsAsFactors = F)
-    I <- NA	%>% as.data.frame(stringsAsFactors = F)
-    K <- NA	%>% as.data.frame(stringsAsFactors = F)
+    I <- NA %>% as.data.frame(stringsAsFactors = F)
+    K <- NA %>% as.data.frame(stringsAsFactors = F)
   }
   
   # text from ad body
@@ -129,14 +129,14 @@ scrape_jobsge <- function(x){
         "http://" %in% (employer_url_given %>% html_attr("href")) | 
         "https://" %in% (employer_url_given %>% html_attr("href"))) {
       D_eng <- NA %>% as.data.frame(stringsAsFactors = F)
-      I_eng <- NA	%>% as.data.frame(stringsAsFactors = F)
-      K_eng <- NA	%>% as.data.frame(stringsAsFactors = F)
+      I_eng <- NA %>% as.data.frame(stringsAsFactors = F)
+      K_eng <- NA %>% as.data.frame(stringsAsFactors = F)
     } else {
       employer_url <- paste("http://www.jobs.ge", employer_url_given %>% html_attr("href"), sep = "") %>%
         str_replace_all(pattern = " ", replacement = "%20")
       D_eng <- employer_url %>% as.data.frame(stringsAsFactors = F)
       
-      employer_html = read_html(employer_url)
+      employer_html <- read_html(employer_url)
       employer_content <- employer_html %>% html_node(".content") %>% html_nodes("table") 
       if (length(employer_content) == 0) {
         I_eng <- NA	%>% as.data.frame(stringsAsFactors = F)
@@ -186,7 +186,7 @@ scrape_jobsge <- function(x){
   df_row <- cbind(A, A_eng, B, B_eng, C, C_eng, D, D_eng, E_eng, F_eng, G, G_eng, H, H_eng, 
                   I, I_eng, J, J_eng, K, K_eng)
   names(df_row) <- c("ვაკანსია", "Position", "ვაკანსიის_ლინკი", "Position_url", "დამსაქმებელი", "Employer",                   
-                     "დამსაქმებლის_ლინკი", "Employer_url", "Published", "Deadline", "რეგიონი", "Region", 
+                     "დამსაქმებლის_ლინკი", "Employer_url", "გამოქვეყნდა", "ბოლო_ვადა", "მდებარეობა", "Location",
                      "ვაკანსიის_დეტალები", "Position_info", "დამსაქმებლის_დეტალები", "Employer_info", 
                      "ლინკები_ვაკანსიის_დეტალებიდან", "urls_from_position_info", 
                      "ლინკები_დამსაქმებლის_დეტალებიდან", "urls_from_employer_info")
