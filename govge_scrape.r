@@ -9,8 +9,8 @@ library(writexl)
 
 
 #inputs: 
-newFileName <- "newFileName"
-# oldFileName <- "oldFileName" # uncomment if updating database
+newFileName <- "newFileName" # do not include extension 
+# oldFileName <- "oldFileName" # do not include extension, uncomment if updating database
 i <- 4 #number of active posts pages
 j <- 3 #number of relative archive pages
 #end inputs 
@@ -90,7 +90,7 @@ scrape_govge <- function(x, divider1 = "  XXXX  ", divider2 = " YYYY "){
 	if (length(extra_info_vec) != 0) {text1 <- paste2(extra_info_vec, collapse = divider1)} else {text1 <- NA}
 	if (length(ad_tables) != 0) {text2 <- paste2(ad_tables, collapse = divider1)} else {text2 <- NA}
 	text3 <- ad_dls[1] %>% html_text(trim = TRUE)
-	texts <- paste2(c(text1, text2, text3), collapse = divider2)
+	texts <- paste(text1, text2, text3, collapse = divider2)
 	# parts of text from ad body 	
 	P <- texts %>% as.data.frame(stringsAsFactors = F)
 	
@@ -98,7 +98,7 @@ scrape_govge <- function(x, divider1 = "  XXXX  ", divider2 = " YYYY "){
 	df_row <- cbind(A, C, G, D, E, I, J, K, L, H, M, N, O, P, B)
 	names(df_row) <- c("ვაკანსია", "დამსაქმებელი", "კატეგორია_განცხადებიდან", "ბოლო_ვადა",
 	                   "თანამდებობის_დასახელება", "ადგილების_რაოდენობა", "მდებარეობა", "სამუშაო_განრიგი",
-	                   "გამოსაცდელი_ვადა", "ხელფასი", "განათლება", "გამოცდილება", "ენები", 
+	                   "გამოსაცდელი_ვადა", "ანაზღაურება", "განათლება", "გამოცდილება", "ენები", 
 	                   "ვაკანსიის_დეტალები", "ვაკანსიის_ლინკი")
 	
 	df_row <- as.tibble(df_row)

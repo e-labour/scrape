@@ -9,8 +9,8 @@ library(writexl)
 
 
 #inputs
-newFileName <- "newFileName"
-# oldFileName <- "oldFileName" # uncomment if updating database
+newFileName <- "newFileName" # do not include extension 
+# oldFileName <- "oldFileName" # do not include extension, uncomment if updating database
 #end inputs
 
 months = list("იან" = "01", "თებ" = "02", "მარ" = "03", "აპრ" = "04", 
@@ -109,7 +109,7 @@ scrape_hrge <- function(x){
   
   df_row <- cbind(A, B, C, D, E, Z, G, H, I, J, K, L, M, N, O, P, Q, R)
   names(df_row) <- c("ვაკანსია", "დამსაქმებელი", "კატეგორია_განცხადებიდან",
-                     "გამოქვეყნდა", "ბოლო_ვადა", "მდებარეობა", "სამუშაო_განრიგი", "ხელფასი", 
+                     "გამოქვეყნდა", "ბოლო_ვადა", "მდებარეობა", "სამუშაო_განრიგი", "ანაზღაურება", 
                      "განათლება", "გამოცდილება", "ენები", "ელ_ფოსტა", "ვაკანსიის_დეტალები",
                      "დამსაქმებლის_დეტალები", "ვაკანსიის_ლინკი", "დამსაქმებლის_ლინკი", 
                      "ლინკები_ვაკანსიის_დეტალებიდან","vip_exclusive_p")

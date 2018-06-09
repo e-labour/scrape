@@ -9,12 +9,11 @@ library(writexl)
 
 
 #inputs: 
-newFileName <- "newFileName"
-# oldFileName <- "oldFileName" # uncomment if updating database
+newFileName <- "newFileName" # do not include extension 
+# oldFileName <- "oldFileName" # do not include extension, uncomment if updating database
 i <- 6 #number of post pages
 #end inputs 
 
-paste2 <- function(charvec, collapse = ", "){if (all(is.na(charvec))){NA} else {paste(charvec, collapse = collapse)}}
 get_urls_jobsge <- function(url){
   page <- read_html(url)
   all_urls <- page %>% html_nodes("tr") %>%  html_nodes("td") %>% 
