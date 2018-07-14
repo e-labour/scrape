@@ -11,7 +11,7 @@ library(writexl)
 #inputs: 
 newFileName <- "newFileName" # do not include extension 
 # oldFileName <- "oldFileName" # do not include extension, uncomment if updating database
-i <- 6 #number of post pages
+i <- 2 #number of post pages
 #end inputs 
 
 get_urls_jobsge <- function(url){
@@ -28,10 +28,10 @@ new_ad_urls <- map(urls, get_urls_jobsge) %>% unlist() %>% unique()
 
 #--------uncomment if updating database
 # filename <- paste0(oldFileName, ".csv")
-# df_old <- read_csv(filename, col_names = TRUE) 
+# df_old <- read_csv(filename, col_names = TRUE)
 # df_old$X1 <- NULL
 # old_ad_ulrs <-  df_old %>% use_series(ვაკანსიის_ლინკი)
-# new_ad_urls <- setdiff(new_ad_urls, old_ad_urls) 
+# new_ad_urls <- setdiff(new_ad_urls, old_ad_urls)
 #--------
 
 # function to scrape data from an ad page with x = ad url. returns a dataframe

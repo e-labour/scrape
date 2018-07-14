@@ -11,8 +11,8 @@ library(writexl)
 #inputs: 
 newFileName <- "newFileName" # do not include extension 
 # oldFileName <- "oldFileName" # do not include extension, uncomment if updating database
-i <- 4 #number of active posts pages
-j <- 3 #number of relative archive pages
+i <- 2 #number of active posts pages
+j <- 2 #number of relative archive pages
 #end inputs 
 
 paste2 <- function(charvec, collapse = ", "){if (all(is.na(charvec))){NA} else {paste(charvec, collapse = collapse)}}
@@ -31,7 +31,7 @@ new_ad_urls <- map(urls, get_urls_govge) %>% unlist()
 
 #--------uncomment if updating database
 # filename <- paste0(oldFileName, ".csv")
-# df_old <- read_csv(filename, col_names = TRUE) 
+# df_old <- read_csv(filename, col_names = TRUE)
 # df_old$X1 <- NULL
 # old_ad_ulrs <-  df_old %>% use_series(ვაკანსიის_ლინკი) %>% substr(1,59)
 # new_ad_urls <- new_ad_urls[!(substr(new_ad_urls, 1, 59) %in% old_ad_ulrs)] # cannot use setdiff function here due to different url structure for active and archive posts

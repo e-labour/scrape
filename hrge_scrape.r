@@ -11,6 +11,7 @@ library(writexl)
 #inputs
 newFileName <- "newFileName" # do not include extension 
 # oldFileName <- "oldFileName" # do not include extension, uncomment if updating database
+i <- 2 #number of post pages
 #end inputs
 
 months = list("იან" = "01", "თებ" = "02", "მარ" = "03", "აპრ" = "04", 
@@ -19,18 +20,21 @@ months = list("იან" = "01", "თებ" = "02", "მარ" = "03", "ა�
 paste2 <- function(charvec, collapse = ", "){if (all(is.na(charvec))){NA} else {paste(charvec, collapse = collapse)}}
 
 # list of all ad urls to scrape
-hrge_page <- read_html("https://hr.ge/announcements/of-vacancy")
-all_urls <- hrge_page %>% html_nodes("tr") %>%  html_nodes("td") %>% 
-  html_node("a") %>% html_attr("href") 
-new_ad_urls <- all_urls %>% str_subset("/announcement/") %>% 
-  substr(1,19) %>% paste("https://hr.ge", ., sep = "") 
+urls <- paste("https://hr.ge/announcements/of-vacancy?page=", as.character(1:i), sep = "")
+get_urls_hrge <- function(url){
+  page <- read_html(url)
+  all_urls <- page %>% html_nodes("tr") %>%  html_nodes("td") %>% 
+    html_node("a") %>% html_attr("href") %>% str_subset("/announcement/") %>% 
+    substr(1,19) %>% paste("https://hr.ge", ., sep = "") 
+}
+new_ad_urls <- map(urls, get_urls_hrge) %>% unlist() %>% unique()
 
 #--------uncomment if updating database
 # filename <- paste0(oldFileName, ".csv")
-# df_old <- read_csv(filename, col_names = TRUE) 
+# df_old <- read_csv(filename, col_names = TRUE)
 # df_old$X1 <- NULL
 # old_ad_urls <-  df_old %>% use_series(ვაკანსიის_ლინკი)
-# new_ad_urls <- setdiff(new_ad_urls, old_ad_urls)  
+# new_ad_urls <- setdiff(new_ad_urls, old_ad_urls)
 #--------
 
 # function to scrape data from an ad page with x = ad url. returns a dataframe
