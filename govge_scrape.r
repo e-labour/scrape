@@ -33,8 +33,8 @@ new_ad_urls <- map(urls, get_urls_govge) %>% unlist()
 # filename <- paste0(oldFileName, ".csv")
 # df_old <- read_csv(filename, col_names = TRUE)
 # df_old$X1 <- NULL
-# old_ad_ulrs <-  df_old %>% use_series(ვაკანსიის_ლინკი) %>% substr(1,59)
-# new_ad_urls <- new_ad_urls[!(substr(new_ad_urls, 1, 59) %in% old_ad_ulrs)] # cannot use setdiff function here due to different url structure for active and archive posts
+# old_ad_urls <-  df_old %>% use_series(ვაკანსიის_ლინკი) %>% substr(1,59)
+# new_ad_urls <- new_ad_urls[!(substr(new_ad_urls, 1, 59) %in% old_ad_urls)] # cannot use setdiff function here due to different url structure for active and archive posts
 #--------
 
 
